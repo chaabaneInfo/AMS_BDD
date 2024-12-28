@@ -1,12 +1,125 @@
 Vente Produit: Banane
-Prix: 2.0
-Date: Sat Dec 28 15:46:00 CET 2024
+Prix d'achat: 1.0
+Prix de vente: 2.0
+Bénéfice: 1.0
+Chiffre d'affaires total: 8.0
+Bénéfice total: 4.0
 
 Vente Produit: Banane
-Prix: 2.0
-Date: Sat Dec 28 15:47:07 CET 2024
+Prix d'achat: 1.0
+Prix de vente: 2.0
+Bénéfice: 1.0
+Chiffre d'affaires total: 10.0
+Bénéfice total: 5.0
 
 Vente Produit: Banane
-Prix: 2.0
-Date: Sat Dec 28 15:47:09 CET 2024
+Prix d'achat: 1.0
+Prix de vente: 2.0
+Bénéfice: 1.0
+Chiffre d'affaires total: 12.0
+Bénéfice total: 6.0
 
+Vente Produit: Banane
+Prix d'achat: 1.0
+Prix de vente: 2.0
+Bénéfice: 1.0
+Chiffre d'affaires total: 14.0
+Bénéfice total: 7.0
+
+Vente Produit: Banane
+Prix d'achat: 1.0
+Prix de vente: 2.0
+Bénéfice: 1.0
+Chiffre d'affaires total: 16.0
+Bénéfice total: 8.0
+
+Vente Produit: Banane
+Prix d'achat: 1.0
+Prix de vente: 2.0
+Bénéfice: 1.0
+Chiffre d'affaires total: 18.0
+Bénéfice total: 9.0
+
+Vente Produit: Banane
+Prix d'achat: 1.0
+Prix de vente: 2.0
+Bénéfice: 1.0
+Chiffre d'affaires total: 2.0
+Bénéfice total: 1.0
+
+Vente Produit: Banane
+Prix d'achat: 1.0
+Prix de vente: 2.0
+Bénéfice: 1.0
+Chiffre d'affaires total: 4.0
+Bénéfice total: 2.0
+
+Vente Produit: Pomme
+Prix d'achat: 1.5
+Prix de vente: 3.0
+Bénéfice: 1.5
+Chiffre d'affaires total: 7.0
+Bénéfice total: 3.5
+
+Vente Produit: Banane
+Prix d'achat: 1.0
+Prix de vente: 2.0
+Bénéfice: 1.0
+Chiffre d'affaires total: 9.0
+Bénéfice total: 4.5
+
+Vente Produit: Pomme
+Prix d'achat: 1.5
+Prix de vente: 3.0
+Bénéfice: 1.5
+Chiffre d'affaires total: 12.0
+Bénéfice total: 6.0
+
+Ticket de caisse :
+
+Total des ventes : 0.0
+Total des bénéfices : 0.0
+Ticket de caisse :
+
+Total des ventes : 0.0
+Total des bénéfices : 0.0
+Ticket de caisse :
+
+Total des ventes : 0.0
+Total des bénéfices : 0.0
+Ticket de caisse :
+
+Total des ventes : 0.0
+Total des bénéfices : 0.0
+Ticket de caisse :
+
+Produit : Banane
+Quantité vendue : 2
+Prix de vente : 4.0
+Prix d'achat : 2.0
+Bénéfice : 2.0
+
+Produit : Pomme
+Quantité vendue : 2
+Prix de vente : 6.0
+Prix d'achat : 3.0
+Bénéfice : 3.0
+
+Total des ventes : 10.0
+Total des bénéfices : 5.0
+Ticket de caisse :
+
+Produit : Banane
+Quantité vendue : 108
+Prix de vente : 216.0
+Prix d'achat : 108.0
+Bénéfice : 108.0
+
+Produit : Pomme
+Quantité vendue : 80
+Prix de vente : 240.0
+Prix d'achat : 120.0
+Bénéfice : 120.0
+
+Total des ventes : 456.0
+Total des bénéfices : 228.0

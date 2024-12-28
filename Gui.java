@@ -13,6 +13,8 @@ public class Gui {
     static List<Lot> lots = new ArrayList<>();
     static List<Vente> ventes = new ArrayList<>();
     static List<Fournisseur> fournisseurs = new ArrayList<>();
+    static double chiffreAffaires = 0;
+    static double totalBenefice = 0;
 
     public static void main(String[] args) {
         // Initialisation des données
@@ -61,13 +63,16 @@ public class Gui {
     private static void initialiserDonnees() {
         Produit produit1 = new Produit(1, "Banane", "Fruit");
         produit1.setprixVente(2.0);
+        produit1.setPrixAchat(1.0);
         produit1.setQuantite(50);
         Produit produit2 = new Produit(2, "Pomme", "Fruit");
         produit2.setprixVente(3.0);
+        produit2.setPrixAchat(1.5);
         produit2.setQuantite(30);
 
         Lot lot1 = new Lot(1, new Date());
         lot1.ajouterProduit(produit1);
+        lot1.ajouterProduit(produit2);
 
         lots.add(lot1);
 
@@ -79,27 +84,32 @@ public class Gui {
 
         fournisseurs.add(fournisseur1);
         fournisseurs.add(fournisseur2);
+
+        System.out.println("[Initialisation] Données initialisées avec succès.");
     }
 
     private static void acheterLot() {
         JFrame achatFrame = new JFrame("Acheter un lot");
-        achatFrame.setSize(400, 300);
-
-        JPanel panel = new JPanel(new GridLayout(4, 2));
-
+        achatFrame.setSize(500, 400);
+    
+        JPanel panel = new JPanel(new GridLayout(5, 2));
+    
         JLabel fournisseurLabel = new JLabel("Fournisseur :");
         JComboBox<String> fournisseurCombo = new JComboBox<>();
         for (Fournisseur f : fournisseurs) {
             fournisseurCombo.addItem(f.NomSociete);
         }
-
+    
         JLabel lotsLabel = new JLabel("Lots disponibles :");
         JComboBox<String> lotsCombo = new JComboBox<>();
-
+    
+        JLabel quantiteLabel = new JLabel("Quantité à acheter :");
+        JSpinner quantiteSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 100, 1)); // Permet de sélectionner le nombre de lots
+    
         JLabel prixLabel = new JLabel("Prix total :");
         JTextField prixField = new JTextField();
         prixField.setEditable(false);
-
+    
         fournisseurCombo.addActionListener(e -> {
             lotsCombo.removeAllItems();
             prixField.setText("");
@@ -108,129 +118,186 @@ public class Gui {
                     .filter(f -> f.NomSociete.equals(fournisseurSelectionne))
                     .findFirst()
                     .orElse(null);
-
+    
             if (fournisseur != null) {
                 for (Contrat contrat : fournisseur.contrats) {
                     if (contrat.LotProduit != null) {
                         lotsCombo.addItem("Lot ID: " + contrat.LotProduit.IdLot);
                     }
                 }
+                System.out.println("[Achat] Fournisseur sélectionné : " + fournisseurSelectionne);
             }
         });
-
+    
         lotsCombo.addActionListener(e -> {
             String lotSelectionne = (String) lotsCombo.getSelectedItem();
             if (lotSelectionne != null && !lotSelectionne.isEmpty()) {
-                String fournisseurSelectionne = (String) fournisseurCombo.getSelectedItem();
-                Fournisseur fournisseur = fournisseurs.stream()
-                        .filter(f -> f.NomSociete.equals(fournisseurSelectionne))
+                Lot lot = lots.stream()
+                        .filter(l -> ("Lot ID: " + l.IdLot).equals(lotSelectionne))
                         .findFirst()
                         .orElse(null);
-
-                if (fournisseur != null) {
-                    for (Contrat contrat : fournisseur.contrats) {
-                        if (contrat.LotProduit != null && ("Lot ID: " + contrat.LotProduit.IdLot).equals(lotSelectionne)) {
-                            prixField.setText(String.valueOf(contrat.PrixFixe));
-                        }
-                    }
+                if (lot != null) {
+                    int quantite = (int) quantiteSpinner.getValue();
+                    prixField.setText(String.valueOf(lot.PrixLot * quantite));
                 }
             }
         });
-
+    
+        quantiteSpinner.addChangeListener(e -> {
+            String lotSelectionne = (String) lotsCombo.getSelectedItem();
+            if (lotSelectionne != null && !lotSelectionne.isEmpty()) {
+                Lot lot = lots.stream()
+                        .filter(l -> ("Lot ID: " + l.IdLot).equals(lotSelectionne))
+                        .findFirst()
+                        .orElse(null);
+                if (lot != null) {
+                    int quantite = (int) quantiteSpinner.getValue();
+                    prixField.setText(String.valueOf(lot.PrixLot * quantite));
+                }
+            }
+        });
+    
         JButton confirmerButton = new JButton("Confirmer");
         confirmerButton.addActionListener(e -> {
             String lotSelectionne = (String) lotsCombo.getSelectedItem();
+            int quantite = (int) quantiteSpinner.getValue();
             if (lotSelectionne != null && !lotSelectionne.isEmpty()) {
-                Lot lotAchete = null;
-                for (Lot lot : lots) {
-                    if (("Lot ID: " + lot.IdLot).equals(lotSelectionne)) {
-                        lotAchete = lot;
-                        break;
-                    }
-                }
-
+                Lot lotAchete = lots.stream()
+                        .filter(l -> ("Lot ID: " + l.IdLot).equals(lotSelectionne))
+                        .findFirst()
+                        .orElse(null);
+    
                 if (lotAchete != null) {
-                    for (Produit produit : lotAchete.produits) {
-                        produit.augmenterQuantite(10); // Augmente la quantité de chaque produit de 10 (exemple)
+                    for (int i = 0; i < quantite; i++) {
+                        for (Produit produit : lotAchete.produits) {
+                            produit.augmenterQuantite(10); // Exemple : augmente de 10 pour chaque lot acheté
+                            System.out.println("[Achat] Stock mis à jour pour le produit : " + produit.nom + ", Quantité : " + produit.getQuantite());
+                        }
                     }
-                    JOptionPane.showMessageDialog(achatFrame, "Lot acheté avec succès et stock mis à jour !");
+                    JOptionPane.showMessageDialog(achatFrame, "Lot(s) acheté(s) avec succès et stock mis à jour !");
                 }
             } else {
                 JOptionPane.showMessageDialog(achatFrame, "Veuillez sélectionner un lot.");
             }
             achatFrame.dispose();
         });
-
+    
         panel.add(fournisseurLabel);
         panel.add(fournisseurCombo);
         panel.add(lotsLabel);
         panel.add(lotsCombo);
+        panel.add(quantiteLabel);
+        panel.add(quantiteSpinner);
         panel.add(prixLabel);
         panel.add(prixField);
         panel.add(confirmerButton);
-
+    
         achatFrame.add(panel);
         achatFrame.setVisible(true);
     }
-
+    
     private static void vendreProduit() {
-        JFrame venteFrame = new JFrame("Vendre un produit");
-        venteFrame.setSize(400, 300);
+        JFrame venteFrame = new JFrame("Vendre des produits");
+        venteFrame.setSize(600, 400);
     
-        JPanel panel = new JPanel(new GridLayout(2, 2));
+        JPanel panel = new JPanel(new BorderLayout());
     
-        JLabel produitLabel = new JLabel("Produit :");
-        JComboBox<String> produitCombo = new JComboBox<>();
-        updateProductList(produitCombo);
+        // Table pour afficher les produits disponibles et leurs quantités à vendre
+        String[] columnNames = {"Produit", "Quantité en stock", "Quantité à vendre"};
+        List<Produit> produitsDispo = new ArrayList<>();
+        List<Object[]> data = new ArrayList<>();
     
-        JButton confirmerButton = new JButton("Vendre");
+        // Ajouter les produits disponibles dans la table
+        for (Lot lot : lots) {
+            for (Produit produit : lot.produits) {
+                if (produit.getQuantite() > 0) {
+                    produitsDispo.add(produit);
+                    data.add(new Object[]{produit.nom, produit.getQuantite(), "0"}); // "0" comme valeur par défaut pour la quantité à vendre
+                }
+            }
+        }
+    
+        Object[][] tableData = data.toArray(new Object[0][]);
+        JTable table = new JTable(tableData, columnNames);
+    
+        JScrollPane scrollPane = new JScrollPane(table);
+        panel.add(scrollPane, BorderLayout.CENTER);
+    
+        JButton confirmerButton = new JButton("Confirmer la vente");
         confirmerButton.addActionListener(e -> {
-            String produitNom = (String) produitCombo.getSelectedItem();
-            Produit produitAVendre = null;
+            double totalPrixVente = 0.0;
+            double totalBenefice = 0.0;
+            StringBuilder ticketDeCaisse = new StringBuilder("Ticket de caisse :\n\n");
     
-            for (Lot lot : lots) {
-                for (Produit p : lot.produits) {
-                    if (p.nom.equals(produitNom)) {
-                        produitAVendre = p;
-                        break;
+            for (int i = 0; i < table.getRowCount(); i++) {
+                String produitNom = (String) table.getValueAt(i, 0);
+                int quantiteStock = (int) table.getValueAt(i, 1);
+    
+                // Convertir la quantité à vendre en entier
+                int quantiteVente;
+                try {
+                    quantiteVente = Integer.parseInt((String) table.getValueAt(i, 2)); // Conversion sécurisée
+                } catch (NumberFormatException ex) {
+                    quantiteVente = 0; // Valeur par défaut si la conversion échoue
+                }
+    
+                if (quantiteVente > 0 && quantiteVente <= quantiteStock) {
+                    Produit produit = produitsDispo.stream()
+                            .filter(p -> p.nom.equals(produitNom))
+                            .findFirst()
+                            .orElse(null);
+    
+                    if (produit != null) {
+                        produit.diminuerQuantite(quantiteVente);
+                        double prixVente = produit.prixVente * quantiteVente;
+                        double prixAchat = produit.getPrixAchat() * quantiteVente;
+                        double benefice = prixVente - prixAchat;
+    
+                        totalPrixVente += prixVente;
+                        totalBenefice += benefice;
+    
+                        ticketDeCaisse.append("Produit : ").append(produit.nom)
+                                .append("\nQuantité vendue : ").append(quantiteVente)
+                                .append("\nPrix de vente : ").append(prixVente)
+                                .append("\nPrix d'achat : ").append(prixAchat)
+                                .append("\nBénéfice : ").append(benefice).append("\n\n");
                     }
                 }
             }
     
-            if (produitAVendre != null && produitAVendre.getQuantite() > 0) {
-                produitAVendre.diminuerQuantite(1);
-                System.out.println("[Vente] Produit vendu : " + produitAVendre.nom);
-                System.out.println("[Vente] Quantité restante : " + produitAVendre.getQuantite());
+            ticketDeCaisse.append("Total des ventes : ").append(totalPrixVente).append("\n");
+            ticketDeCaisse.append("Total des bénéfices : ").append(totalBenefice).append("\n");
     
-                try (FileWriter writer = new FileWriter("ticket_de_caisse.txt", true)) {
-                    writer.write("Vente Produit: " + produitAVendre.nom + "\n");
-                    writer.write("Prix: " + produitAVendre.prixVente + "\n");
-                    writer.write("Date: " + new Date() + "\n\n");
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
+            // Mise à jour des totaux globaux
+            chiffreAffaires += totalPrixVente;
+            totalBenefice += totalBenefice;
     
-                JOptionPane.showMessageDialog(venteFrame, "Produit vendu avec succès et ticket généré !");
-                updateProductList(produitCombo);
-            } else {
-                JOptionPane.showMessageDialog(venteFrame, "Produit introuvable ou en rupture de stock !");
+            // Sauvegarde dans le fichier ticket_de_caisse.txt
+            try (FileWriter writer = new FileWriter("ticket_de_caisse.txt", true)) {
+                writer.write(ticketDeCaisse.toString());
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
+    
+            JOptionPane.showMessageDialog(venteFrame, "Vente confirmée ! Ticket généré.\n\n" + ticketDeCaisse);
+            venteFrame.dispose();
         });
     
-        panel.add(produitLabel);
-        panel.add(produitCombo);
-        panel.add(confirmerButton);
-    
+        panel.add(confirmerButton, BorderLayout.SOUTH);
         venteFrame.add(panel);
         venteFrame.setVisible(true);
     }
+    
+    
 
     private static void updateProductList(JComboBox<String> produitCombo) {
-        produitCombo.removeAllItems(); // Efface la liste actuelle
+        produitCombo.removeAllItems();
+        System.out.println("[UpdateProductList] Actualisation de la liste des produits disponibles...");
         for (Lot lot : lots) {
-            for (Produit p : lot.produits) {
-                if (p.getQuantite() > 0) { // N'ajouter que les produits en stock
-                    produitCombo.addItem(p.nom);
+            for (Produit produit : lot.produits) {
+                if (produit.getQuantite() > 0) {
+                    produitCombo.addItem(produit.nom);
+                    System.out.println("[UpdateProductList] Produit ajouté : " + produit.nom + ", Quantité : " + produit.getQuantite());
                 }
             }
         }

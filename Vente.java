@@ -14,12 +14,10 @@ public class Vente{
         this.IdVente = IdVente;
         this.DateVente = DateVente;
         this.produit = produit;
-        this.lot = produit.lot;
         this.PrixVente = PrixVente(produit);
         produit.setprixVente(PrixVente);
 
-        produit.lot.RemoveProduit(produit);
-
+        this.lot.RemoveProduit(produit); // Suppression du produit du lot
 
 
     }
