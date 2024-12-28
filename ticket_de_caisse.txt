@@ -1,0 +1,12 @@
+Vente Produit: Banane
+Prix: 2.0
+Date: Sat Dec 28 15:46:00 CET 2024
+
+Vente Produit: Banane
+Prix: 2.0
+Date: Sat Dec 28 15:47:07 CET 2024
+
+Vente Produit: Banane
+Prix: 2.0
+Date: Sat Dec 28 15:47:09 CET 2024
+
