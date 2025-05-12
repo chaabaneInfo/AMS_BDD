@@ -1,0 +1,73 @@
+Compte Rendu du Projet - Gestion de Supérette
+
+État d’Avancement des Fonctionnalités :
+
+1.Fonctionnalités complètement implémentées :
+
+Gestion des Fournisseurs:
+Ajout, modification et suppression de fournisseurs.
+Gestion des contacts et des informations de base.
+
+Gestion des Produits:
+Identification des produits avec un numéro unique et description détaillée.
+Association des produits à des catégories.
+Gestion des variations via la description.
+
+Gestion des Contrats:
+Association des contrats aux produits et aux fournisseurs.
+Mise à jour automatique de la date de fin lors d’un changement de prix.
+Création d’un nouveau contrat lors d’une modification du prix.
+
+Gestion des Achats:
+Achat défini comme un lot unique.
+Enregistrement des achats avec leurs quantités et numéros de lots.
+Association des achats aux fournisseurs et produits.
+Affichage du stock disponible par produit et par fournisseur.
+
+Gestion des Stocks:
+Mise à jour dynamique des stocks après chaque achat et vente.
+Suivi des lots proches de la date de péremption.
+
+Gestion des Ventes:
+Sélection des produits à vendre avec leur prix de vente.
+Enregistrement des ventes avec numéro de lot, date et prix.
+Mise à jour automatique des stocks après vente.
+Génération automatique d’un ticket de caisse.
+Gestion des ventes de produits expirés à 0 €.
+Génération d’un tableau de bord affichant les résultats journaliers et mensuels ainsi que le top 10 des ventes.
+
+Tableau de bord:
+Affichage des ventes journalières et mensuelles.
+Classement des 10 meilleures ventes en quantité et en bénéfices.
+Rafraîchissement dynamique après chaque vente.
+
+2.Fonctionnalités partiellement implémentées :
+
+Gestion des Clients:
+Actuellement limitée à un numéro client unique généré automatiquement en caisse.
+Pas encore d’interface pour gérer un historique des clients et des achats.
+
+Suivi avancé des stocks et des pertes:
+Les stocks se mettent bien à jour après achat et vente, mais il manque une gestion plus fine des alertes de rupture de stock ou de produits bientôt périmés.
+
+Vérification de la validité du numéro SIRET: 
+Il ya bien  un numéro SIRET pour chaque fournisseurs mais pas de de vérification.
+
+3.Fonctionnalités non implémentées (faute de temps) :
+
+Gestion avancée des catégories de produits avec une interface dédiée.
+
+Contraintes Techniques Respectées :
+
+1.Langage de programmation : Java
+2.Base de données : PostgreSQL
+3.Hébergement : L’application est fonctionnelle sur le serveur universitaire pedago.univ-avignon.fr.
+
+Améliorations Possibles :
+1.Ajout d’une gestion plus poussée des clients avec historique des achats.
+2.Interface plus ergonomique et intuitive avec des filtres avancés pour la recherche de produits et de fournisseurs.
+3.Gestion automatique des alertes de stock bas et de produits expirés.
+4.Ajout de statistiques avancées et de prévisions de ventes.
+
+
+

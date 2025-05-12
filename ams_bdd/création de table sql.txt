@@ -1,0 +1,49 @@
+
+la table product est cree dans gestion.java
+
+CREATE TABLE fournisseurs (
+    id SERIAL PRIMARY KEY,     
+    nom VARCHAR(100) NOT NULL,  
+    siret CHAR(14) NOT NULL,     
+    adresse TEXT NOT NULL,       
+    email VARCHAR(100) NOT NULL,  
+    telephone VARCHAR(15) NOT NULL 
+);
+
+
+CREATE TABLE contrats (
+    id SERIAL PRIMARY KEY,           
+    produit_id INT NOT NULL,          
+    fournisseur_id INT NOT NULL,      
+    prix NUMERIC(10, 2) NOT NULL,     
+    date_debut DATE NOT NULL,         
+    date_fin DATE,                   
+    FOREIGN KEY (produit_id) REFERENCES produits(id),
+    FOREIGN KEY (fournisseur_id) REFERENCES fournisseurs(id)
+);
+
+
+CREATE TABLE achats (
+    id SERIAL PRIMARY KEY,          
+    produit_id INT NOT NULL,         
+    fournisseur_id INT NOT NULL,    
+    quantite INT NOT NULL,          
+    prix_unitaire NUMERIC(10, 2),    
+    date_achat DATE NOT NULL,        
+    date_peremption DATE,            
+    FOREIGN KEY (produit_id) REFERENCES produits(id),
+    FOREIGN KEY (fournisseur_id) REFERENCES fournisseurs(id)
+);
+
+
+CREATE TABLE ventes (
+    id SERIAL PRIMARY KEY,      
+    produit_id INT NOT NULL,     
+    quantite INT NOT NULL,     
+    prix_vente NUMERIC(10,2) NOT NULL, 
+    date_vente DATE NOT NULL,   
+    FOREIGN KEY (produit_id) REFERENCES produits(id) ON DELETE CASCADE
+);
+
+
+
